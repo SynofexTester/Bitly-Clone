@@ -4,8 +4,12 @@ from utils import generate_short_code
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urls.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if os.environ.get('VERCEL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/urls.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///urls.db'
 
 db.init_app(app)
 
